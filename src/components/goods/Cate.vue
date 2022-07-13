@@ -31,7 +31,7 @@
         <!-- 操作 -->
         <template slot="operator" slot-scope="scope">
           <el-button size="mini" type="primary" icon="el-icon-edit">编辑</el-button>
-          <el-button size="mini" type="danger" icon="el-icon-delete"></el-button>
+          <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteCate(scope.row)"></el-button>
         </template>
       </tree-table>
 
@@ -123,7 +123,8 @@ export default {
         children: 'children'
       },
       // 选中的父级分类的Id数组
-      selectedKyes: []
+      selectedKyes: [],
+      deleteCateDialogVisible: false
     }
   },
   created() {
@@ -208,6 +209,26 @@ export default {
     addCateDialogClosed() {
       this.$refs.addCateFormRef.resetFields()
       this.selectedKyes = []
+    },
+    async deleteCate(val) {
+      const confirmResult = await this.$confirm(
+        '此操作将永久删除该文件, 是否继续?',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).catch(err => err)
+      if (confirmResult !== 'confirm') {
+        return ''
+      }
+      console.log(val.cat_id);
+      const { data: res } = await this.$http.delete('categories/' + val.cat_id)
+      if (res.meta.status !== 200) {
+        return this.$message.error('删除分类失败')
+      }
+      this.getCateList()
+      this.deleteCateDialogVisible = false
     }
   }
 }
