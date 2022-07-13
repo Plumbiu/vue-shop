@@ -109,11 +109,7 @@
         <p>当前角色:{{userInfo.role_name}}</p>
         <p>分配新角色:
           <el-select v-model="selectedRoleId" placeholder="请选择">
-            <el-option
-              v-for="item in rolesList"
-              :key="item.id"
-              :label="item.roleName"
-              :value="item.id">
+            <el-option v-for="item in rolesList" :key="item.id" :label="item.roleName" :value="item.id">
             </el-option>
 
           </el-select>
@@ -342,9 +338,12 @@ export default {
         return this.$message.error('请选择要分配的角色!')
       }
 
-      const { data: res } = await this.$http.put(`users/${this.userInfo.id}/role`, { rid: this.selectedRoleId })
-      if(res.meta.status !== 200) {
-        console.log(res);
+      const { data: res } = await this.$http.put(
+        `users/${this.userInfo.id}/role`,
+        { rid: this.selectedRoleId }
+      )
+      if (res.meta.status !== 200) {
+        console.log(res)
         return this.$message.error('更新角色失败')
       }
       this.$message.success('更新角色成功')
