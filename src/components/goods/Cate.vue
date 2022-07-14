@@ -202,7 +202,6 @@ export default {
         this.$message.success('添加分类成功！')
         this.getCateList()
         this.addCateDialogVisible = false
-        console.log(res.data);
       })
     },
     // 监听对话框的关闭时间，重置表单数据
@@ -222,7 +221,6 @@ export default {
       if (confirmResult !== 'confirm') {
         return ''
       }
-      console.log(val.cat_id);
       const { data: res } = await this.$http.delete('categories/' + val.cat_id)
       if (res.meta.status !== 200) {
         return this.$message.error('删除分类失败')
@@ -234,7 +232,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
 .el-cascader {
   width: 100%;
 }
