@@ -270,8 +270,8 @@ export default {
         // 商品的名称，必须是唯一的
         const { data: res } = await this.$http.post('goods', form)
         if(res.meta.status !== 201) {
-          console.log(res);
-          console.log(form);
+          console.log(res)
+          console.log(form)
           return this.$message.error('添加商品失败！')
         }
         this.$message.success('添加商品成功!')
